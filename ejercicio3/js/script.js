@@ -1,25 +1,36 @@
 document.addEventListener("DOMContentLoaded",function () {
-    var XMLHttpRequestObject = false;
+    var xhr = false;
     if (window.XMLHttpRequest) {
-        XMLHttpRequestObject = new XMLHttpRequest();
+        xhr = new XMLHttpRequest();
     } else if (window.ActiveXObject) {
-        XMLHttpRequestObject = new ActiveXObject("Microsoft.XMLHTTP");
+        xhr = new ActiveXObject("Microsoft.XMLHTTP");
     }
-    
-        // Función para cargar contenido de forma asíncrona
-        function cargarContenido(url, idDiv) {
-            if (XMLHttpRequestObject) {
-                var contenedor = document.getElementById(idDiv);
-                XMLHttpRequestObject.open("GET", url, true); // true para asíncrono
-                XMLHttpRequestObject.onreadystatechange = function () {
-                    if (XMLHttpRequestObject.readyState === 4 &&
-                        XMLHttpRequestObject.status === 200) {
-                        contenedor.innerHTML = XMLHttpRequestObject.responseText;
-                    }
-                };
-                XMLHttpRequestObject.send(null);
-            }
-        }
 
-    
+    const imagenes = ["img/baixa.jpeg","img/baixa (1).jpeg"];
+    let indiceImagen = 0;
+    var cambiar =  document.getElementById("change");
+
+    cambiar.addEventListener("click", function () {
+        // Alternar el índice de la imagen
+        indiceImagen = (indiceImagen + 1) % imagenes.length;
+        
+        if (xhr) {
+            var contenedor = document.getElementById("content");
+            xhr.open("GET", imagenes[indiceImagen], true); // true para asíncrono
+            xhr.responseType = "blob"; //Para repensentar archivos de imagen en js
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var imgURL = URL.createObjectURL(xhr.response);
+                    document.getElementById("imagen").src = imgURL;
+
+                    document.getElementById("imagen").onload = function () {
+                        URL.revokeObjectURL(imgURL);
+                    }
+                }
+            };
+            xhr.send(null);
+        }
+    });
+
 })
