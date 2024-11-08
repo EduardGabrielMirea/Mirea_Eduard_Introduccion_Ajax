@@ -11,13 +11,19 @@ document.addEventListener("DOMContentLoaded",function () {
 
     formulario.addEventListener("submit",function (event) {
         event.preventDefault();
+        
+        // Obtener los datos del formulario
+        var nombre = document.getElementById("nombre").value.trim();
+        var apellido = document.getElementById("apellido").value.trim();
+
+        // Llamar a la funcion de verificación
+        if (!verificarCampos(nombre, apellido)) {
+            return; // Si la validación falla, detener el envío
+        }
 
         // Mostrar el icono de carga
         carga.style.display = "block";
 
-        // Obtener los datos del formulario
-        var nombre = document.getElementById("nombre").value;
-        var apellido = document.getElementById("apellido").value;
         
         // Parametros de la url.
         var parametro = `?nombre=${encodeURIComponent(nombre)}&apellido=${encodeURIComponent(apellido)}`;
@@ -41,3 +47,18 @@ document.addEventListener("DOMContentLoaded",function () {
         xhr.send();
     });
 });
+
+// Funcion para verificar si los campos están vacios
+function verificarCampos(nombre,apellido) {
+       
+        if (nombre === "") {
+            alert("El campo 'Nombre' es obligatorio.");
+            return false; // Detener el envío si el campo está vacío
+        }
+
+        if (apellido === "") {
+            alert("El campo 'Apellido' es obligatorio.");
+            return false; // Detener el envío si el campo está vacío
+        }
+        return true; // Si los campos no están vacíos, enviar el formulario
+}
