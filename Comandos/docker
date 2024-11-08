@@ -1,0 +1,7 @@
+docker run -d -p 80:80 -v ./:/var/www/html/ --user 1219738509:1178000513 php:7.2-apache
+id -u 
+1219738509
+id -g
+1178000513
+
+y luego pones la ruta relativa en el navegador http://0.0.0.0/ejercicio6/index.html
