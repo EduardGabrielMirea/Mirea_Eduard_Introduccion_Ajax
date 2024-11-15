@@ -33,7 +33,8 @@ document.addEventListener("DOMContentLoaded",function () {
             if (xhr.readyState === 4){
                 setTimeout(() => {
                     if(xhr.status === 200) {
-                        nombreCompleto.value = xhr.responseText;
+                        nombreCompleto.value = xhr.responseText.trim();
+                        //nombreCompleto.value = xhr.responseText;
                     }else{
                         nombreCompleto.value = "Error en la solicitud";
                     }
